@@ -1,0 +1,7 @@
+---
+- hosts: spiritual
+  remote_user: root
+
+  tasks:
+    - name: First ansible command
+      shell: docker ps | awk '/{{ item }}/{print $1}'

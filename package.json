@@ -1,0 +1,46 @@
+{
+  "name": "task-scheduler",
+  "version": "0.0.1",
+  "description": "module for performing tasks",
+  "main": "index.js",
+  "config": {
+    "registry": "registry.gitlab.com/medonomator/task-scheduler"
+  },
+  "scripts": {
+    "test": "rm -rf ./dist && NODE_PATH=../../ ./node_modules/.bin/jest -i --coverage --silent",
+    "start": "NODE_PATH=../../:./node_modules ./node_modules/.bin/ts-node index.ts",
+    "build": "rm -rf ./dist && NODE_PATH=../../ ./node_modules/.bin/tsc",
+    "buildContainer": "semver -i $(cat version.num) > version.num && docker build -t $npm_package_config_registry:$(cat version.num) .",
+    "pushContainer": "docker push $npm_package_config_registry:$(cat version.num)",
+    "deploy": "npm run buildContainer && npm run pushContainer",
+    "dev": "pm2 start ecosystem.config.js && pm2 logs"
+  },
+  "keywords": [
+    "cron",
+    "scheduler"
+  ],
+  "author": "Dmitriy Zorin",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/boom": "^7.3.0",
+    "@types/hapi": "^18.0.3",
+    "@types/jest": "^24.0.25",
+    "@types/mongoose": "^5.5.37",
+    "@types/node": "^13.1.2",
+    "ts-jest": "^24.2.0",
+    "ts-node": "^8.5.4",
+    "typescript": "^3.7.4"
+  },
+  "dependencies": {
+    "boom": "^7.3.0",
+    "hapi": "^18.1.0",
+    "jest": "^24.9.0",
+    "joi": "^14.3.1",
+    "pino": "^5.15.0",
+    "pino-pretty": "^3.5.0"
+  },
+  "jest": {
+    "preset": "ts-jest",
+    "testEnvironment": "node"
+  }
+}
